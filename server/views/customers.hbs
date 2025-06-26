@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Customers</title>
+    <style>
+        #updateBody {
+            display: none;
+        }
+        #addBody {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <table>
+        <tr>
+            <td><a href="/">Home</a></td>
+            <td><a href="/customers">Customers</a></td>
+            <td><a href="/products">Products</a></td>
+            <td><a href="/sales">Sales</a></td>
+            <td><a href="/employees">Employees</a></td>
+            <td><a href="/sales_products">Sales_Products Management</a></td>
+        </tr>
+    </table>
+    
+    <div id="mainBody">
+        <h1>Customers Management</h1>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
+        </style>
+
+        <td><button onclick="addform()">Add A Customer</button></td>
+        <h1></h1>
+
+        <table id="customer-table">
+        <thead>
+            <tr>
+                {{#with data.[0]}}
+                    {{#each this}}
+                        <th>{{@key}}</th>
+                    {{/each}}
+                {{/with}}
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each data}}
+                <tr data-value="{{this.customerID}}">
+                    <td>{{this.customerID}}</td>
+                    <td>{{this.name}}</td>
+                    <td>{{this.email}}</td>
+                    <td>{{this.contactNumber}}</td>
+                    <td>{{this.address}}</td>
+                    <td><button onclick="editCustomer({{this.customerID}})">Edit</button></td>
+                    <td><button onclick="deleteCustomer({{this.customerID}})">Delete</button></td>
+                </tr>
+            {{/each}}
+        </tbody>
+        </table>
+    </div>
+
+    <div id="addBody">
+        <h2>Add A Customer</h2>
+        <form id="add-customer-form" method="POST" action="/add-customer">
+            <label for="name">Name* (First Last):</label><br>
+            <input type="text" id="name" name="name" pattern="^[A-Za-z]+ [A-Za-z]+$" required><br>
+            
+            <label for="email">Email*:</label><br>
+            <input type="email" id="email" name="email" required><br>
+            
+            <label for="contactNumber">Contact Number (No Dashes):</label><br>
+            <input type="tel" id="contactNumber" name="contactNumber" pattern="[0-9]{10}"><br>
+            
+            <label for="address">Address:</label><br>
+            <textarea id="address" name="address"></textarea><br>
+            
+            <h1></h1>
+            <input type="submit" value="Submit">
+        </form>
+        <h1></h1>
+        <a href='/customers'><button>Back</button></a>
+        <h5>*Required</h5>
+    </div>
+    
+    <div id="updateBody">
+        <h2 id="updateFormTitle">Edit Customer</h2>
+        <form id="update-customer-form-ajax">
+            <input type="hidden" id="input-customerID" name="customerID">
+
+            <label for="input-name">Name* (First Last):</label><br>
+            <input type="text" id="input-name" name="input-name" pattern="^[A-Za-z]+ [A-Za-z]+$" required><br>
+
+            <label for="input-email">Email*:</label><br>
+            <input type="email" id="input-email" name="input-email" required><br>
+
+            <label for="input-contactNumber">Contact Number (No Dashes):</label><br>
+            <input type="tel" id="input-contactNumber" name="input-contactNumber" pattern="[0-9]{10}"><br>
+
+            <label for="input-address">Address:</label><br>
+            <textarea id="input-address" name="input-address"></textarea><br>
+
+            <h1></h1>
+            <input type="submit" value="Update Customer">
+        </form>
+        <h5>*Required</h5>
+    </div>
+
+<script src="./js/addform.js"></script>
+<script src="./js/delete_customer.js"></script>
+<script src="./js/update_customer.js"></script>
+
+</body>
+</html>

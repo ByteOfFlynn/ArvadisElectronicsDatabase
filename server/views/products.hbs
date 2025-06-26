@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products</title>
+    <style>
+        #updateBody {
+            display: none;
+        }
+        #addBody {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <table>
+        <tr>
+            <td><a href="/">Home</a></td>
+            <td><a href="/customers">Customers</a></td>
+            <td><a href="/products">Products</a></td>
+            <td><a href="/sales">Sales</a></td>
+            <td><a href="/employees">Employees</a></td>
+            <td><a href="/sales_products">Sales_Products Management</a></td>
+        </tr>
+    </table>
+
+    <div id="mainBody">
+        <h1>Products Management</h1>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
+        </style>
+
+        <form id="search-product" method='GET' action='/products'>
+            <label for="input-name">Search by Product Name: </label>
+            <input type="text" name="name" id="input-name-search">
+            <input type="submit">
+            <a href='/products'><button>Reset</button></a>
+        </form>
+
+        <h1></h1>
+        <td><button onclick="addform()">Add A Product</button></td>
+        <h1></h1>
+
+        <table id="product-table">
+        <thead>
+            <tr>
+                {{#with data.[0]}}
+                    {{#each this}}
+                        <th>{{@key}}</th>
+                    {{/each}}
+                {{/with}}
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each data}}
+                <tr data-value="{{this.productID}}">
+                    <td>{{this.productID}}</td>
+                    <td>{{this.name}}</td>
+                    <td>{{this.type}}</td>
+                    <td>{{this.price}}</td>
+                    <td>{{this.description}}</td>
+                    <td>{{this.quantityAvailable}}</td>
+                    <td><button onclick="editProduct({{this.productID}})">Edit</button></td>
+                    <td><button onclick="deleteProduct({{this.productID}})">Delete</button></td>
+                </tr>
+            {{/each}}
+        </tbody>
+        </table>
+    </div>
+
+    <div id="addBody">
+        <h2>Add A Product</h2>
+        <form id="add-product-form" method="POST" action="/add-product">
+            <label for="name">Name*:</label><br>
+            <input type="text" id="name" name="name" required><br>
+            
+            <label for="type">Type:</label><br>
+            <input type="text" id="type" name="type"><br>
+            
+            <label for="price">Price*:</label><br>
+            <input type="number" step="0.01" id="price" name="price" required><br>
+            
+            <label for="description">Description:</label><br>
+            <textarea id="description" name="description"></textarea><br>
+
+            <label for="quantityAvailable">Quantity Available*:</label><br>
+            <input type="number" id="quantityAvailable" name="quantityAvailable" required><br>
+            
+            <h1></h1>
+            <input type="submit" value="Submit">
+        </form>
+        <h1></h1>
+        <a href='/products'><button>Back</button></a>
+        <h5>*Required</h5>
+    </div>
+
+    <div id="updateBody">
+        <h2 id="updateFormTitle">Edit Product</h2>
+        <form id="update-product-form-ajax">
+            <input type="hidden" id="input-productID" name="productID">
+
+            <label for="input-name">Name*:</label><br>
+            <input type="text" id="input-name" name="input-name" required><br>
+
+            <label for="input-type">Type:</label><br>
+            <input type="text" id="input-type" name="input-type"><br>
+
+            <label for="input-price">Price*:</label><br>
+            <input type="number" step="0.01" id="input-price" name="input-price" required><br>
+
+            <label for="input-description">Description:</label><br>
+            <textarea id="input-description" name="input-description"></textarea><br>
+
+            <label for="input-quantityAvailable">Quantity Available*:</label><br>
+            <input type="number" id="input-quantityAvailable" name="input-quantityAvailable" required><br>
+
+            <h1></h1>
+            <input type="submit" value="Update Product">
+        </form>
+        <h5>*Required</h5>
+    </div>
+
+<script src="./js/addform.js"></script>
+<script src="./js/delete_product.js"></script>
+<script src="./js/update_product.js"></script>
+
+</body>
+</html>

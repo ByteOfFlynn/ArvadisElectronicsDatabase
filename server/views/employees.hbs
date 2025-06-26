@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Employees</title>
+    <style>
+        #updateBody {
+            display: none;
+        }
+        #addBody {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <table>
+        <tr>
+            <td><a href="/">Home</a></td>
+            <td><a href="/customers">Customers</a></td>
+            <td><a href="/products">Products</a></td>
+            <td><a href="/sales">Sales</a></td>
+            <td><a href="/employees">Employees</a></td>
+            <td><a href="/sales_products">Sales_Products Management</a></td>
+        </tr>
+    </table>
+
+    <div id="mainBody">
+        <h1>Employees Management</h1>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
+        </style>
+
+        <td><button onclick="addform()">Add An Employee</button></td>
+        <h1></h1>
+
+        <table id="employee-table">
+        <thead>
+            <tr>
+                {{#with data.[0]}}
+                    {{#each this}}
+                        <th>{{@key}}</th>
+                    {{/each}}
+                {{/with}}
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each data}}
+                <tr data-value="{{this.employeeID}}">
+                    <td>{{this.employeeID}}</td>
+                    <td>{{this.name}}</td>
+                    <td>{{this.role}}</td>
+                    <td>{{this.companyEmail}}</td>
+                    <td><button onclick="editEmployee({{this.employeeID}})">Edit</button></td>
+                    <td><button onclick="deleteEmployee({{this.employeeID}})">Delete</button></td>
+                </tr>
+            {{/each}}
+        </tbody>
+        </table>
+    </div>
+  
+    <div id="addBody">
+        <h2>Add An Employee</h2>
+        <form id="add-employee-form" method="POST" action="/add-employee">
+            <label for="name">Name* (First Last):</label><br>
+            <input type="text" id="name" name="name" pattern="^[A-Za-z]+ [A-Za-z]+$" required><br>
+            
+            <label for="role">Role:</label><br>
+            <input type="text" id="role" name="role"><br>
+            
+            <label for="companyEmail">Company Email:</label><br>
+            <input type="email" id="companyEmail" name="companyEmail"><br>
+            
+            <h6></h6>
+            <input type="submit" value="Submit">
+        </form>
+        <h1></h1>
+        <a href='/employees'><button>Back</button></a>
+        <h5>*Required</h5>
+    </div>
+
+    
+    <div id="updateBody">
+        <h2 id="updateFormTitle">Edit Employee</h2>
+        <form id="update-employee-form-ajax">
+            <input type="hidden" id="input-employeeID" name="employeeID">
+
+            <label for="input-name">Name* (First Last):</label><br>
+            <input type="text" id="input-name" name="input-name" pattern="^[A-Za-z]+ [A-Za-z]+$" required><br>
+
+            <label for="input-role">Role:</label><br>
+            <input type="text" id="input-role" name="input-role"><br>
+
+            <label for="input-companyEmail">Company Email:</label><br>
+            <input type="email" id="input-companyEmail" name="input-companyEmail"><br>
+
+            <h1></h1>
+            <input type="submit" value="Update Employee">
+        </form>
+        <h5>*Required</h5>
+    </div>
+
+<script src="./js/addform.js"></script>
+<script src="./js/delete_employee.js"></script>
+<script src="./js/update_employee.js"></script>
+
+</body>
+</html>

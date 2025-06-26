@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage a Sales Products Relationship</title>
+    <style>
+        #updateBody {
+            display: none;
+        }
+        #addBody {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <table>
+        <tr>
+            <td><a href="/">Home</a></td>
+            <td><a href="/customers">Customers</a></td>
+            <td><a href="/products">Products</a></td>
+            <td><a href="/sales">Sales</a></td>
+            <td><a href="/employees">Employees</a></td>
+            <td><a href="/sales_products">Sales_Products Management</a></td>
+        </tr>
+    </table>
+
+    <div id="mainBody">
+        <h1>Sales Products</h1>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
+        </style>
+
+        <td><button onclick="addform()">Add A Relationship</button></td>
+        <h1></h1>
+        
+        <table id="sale_product-table">
+        <thead>
+            <tr>
+                {{#with sales_products.[0]}}
+                    {{#each this}}
+                        <th>{{@key}}</th>
+                    {{/each}}
+                {{/with}}
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each sales_products}}
+                <tr data-value="{{this.saleID}}-{{this.productID}}">
+                    <td>{{this.saleID}}</td>
+                    <td>{{this.productID}}</td>
+                    <td><button onclick="editSale_Product({{this.saleID}}, {{this.productID}})">Edit</button></td>
+                    <td><button onclick="deleteSale_Product({{this.saleID}}, {{this.productID}})">Delete</button></td>
+                </tr>
+            {{/each}}
+        </tbody>
+        </table>
+    </div>
+    
+    <div id="addBody">
+        <h2>Name A Relationship</h2>
+        <form id="add-sale_product-form" method="POST" action="/add-sale_product">
+            
+            <label for="saleID">Sale*:</label><br>
+            <select id="saleID" name="saleID">
+                {{#each sales}}
+                <option value="{{this.saleID}}">{{this.saleID}} - {{this.date}}</option>
+                {{/each}}
+            </select><br>
+            
+            <label for="productID">Product*:</label><br>
+            <select id="productID" name="productID">
+                {{#each products}}
+                <option value="{{this.productID}}">{{this.productID}} - {{this.name}}</option>
+                {{/each}}
+            </select><br>
+
+            <h1></h1>
+            <input type="submit" value="Submit">
+        </form>
+        <h1></h1>
+        <a href='/sales_products'><button>Back</button></a>
+        <h5>*Required</h5>
+    </div>
+
+    <div id="updateBody">
+        <h2 id="updateFormTitle">Edit Sale</h2>
+        <form id="update-sale_product-form-ajax">
+            <input type="hidden" id="input-saleID" name="saleID">
+
+            <input type="hidden" id="input-productID" name="productID">
+            
+            <label for="input-newproductID">Product*:</label><br>
+            <select id="input-newproductID" name="input-newproductID">
+                {{#each products}}
+                <option value="{{this.productID}}">{{this.productID}}</option>
+                {{/each}}
+            </select><br>
+
+            <h1></h1>
+            <input type="submit" value="Update Relationship">
+        </form>
+    </div>
+
+<script src="./js/addform.js"></script>
+<script src="./js/delete_sale_product.js"></script>
+<script src="./js/update_sale_product.js"></script>
+
+</body>
+</html>
